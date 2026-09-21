@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Jev 判定ツール</title>
+    <meta name="description" content="材料と判断基準を入力し、Jevの判定確率を確認するローカルアプリ">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c3754'/%3E%3Cpath d='M17 33l10 10 20-23' fill='none' stroke='%23a4e1d2' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/style.css">
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <main class="layout">
+      <header class="page-header">
+        <span class="eyebrow">JEV / SYSTEM ONE</span>
+        <h1>判定ツール</h1>
+        <p>材料と判断基準を入力すると、候補ごとの確率を表示します。</p>
+      </header>
+
+      <div class="columns">
+        <form id="decision-form" class="panel">
+          <section class="field-group">
+            <div class="section-title"><span class="number">01</span><div><h2>判定する材料・背景情報</h2><span class="code-label">state</span></div></div>
+            <label for="state">対象の文章</label>
+            <textarea id="state" name="state" rows="5" required placeholder="例: 注文A-104で同じ金額が2回引き落とされています。今日中に返金してください。"></textarea>
+          </section>
+
+          <section class="field-group">
+            <div class="section-title"><span class="number">02</span><div><h2>何を判断するか</h2><span class="code-label">instructions</span></div></div>
+            <label for="instructions">質問・判断内容</label>
+            <input id="instructions" name="instructions" required placeholder="例: この問い合わせを担当すべきチームを1つ選んでください。">
+          </section>
+
+          <section class="field-group">
+            <div class="section-title"><span class="number">03</span><div><h2>回答候補と、その基準</h2><span class="code-label">criteria</span></div></div>
+            <p class="hint">左に結果の識別名、右にその候補を選ぶ条件を入力します。</p>
+            <div id="criteria-list" class="criteria-list"></div>
+            <button id="add-criterion" class="add-button" type="button">＋ 候補を追加</button>
+          </section>
+
+          <button id="submit-button" class="submit-button" type="submit">Jevで判定する</button>
+        </form>
+
+        <section class="panel result-panel" aria-labelledby="result-title">
+          <div class="section-title"><span class="number">↗</span><div><h2 id="result-title">判定結果</h2><span class="code-label">probabilities</span></div></div>
+          <p id="status" role="status" aria-live="polite">入力して「Jevで判定する」を押してください。</p>
+          <div id="result" hidden>
+            <p class="result-summary" id="summary"></p>
+            <div id="probabilities" class="probabilities"></div>
+            <p class="model-info" id="model-info"></p>
+            <details class="submitted-details">
+              <summary>Jevに送った内容</summary>
+              <pre id="submitted-request"></pre>
+            </details>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
